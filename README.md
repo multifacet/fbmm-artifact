@@ -214,3 +214,23 @@ Then, to generate the figure, run
 ```sh
 ~/fbmm-artifact/fbmm-workspace/scripts/plot-ycsb-box.py figure3.csv
 ```
+
+## BWMFS Evaluation
+The following command will run the experiments used to generate Figure 4
+```sh
+./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --numactl {EXP} stream --threads 8" \
+    ~/fbmm_results \
+    EXP=,"--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:2 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:5 --node_weight 1:2",--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:2","--numactl --fbmm --bwmmfs --node_weight 0:1 --node_weight 1:3","--numactl --fbmm --bwmmfs --node_weight 0:2 --node_weight 1:3"
+```
+
+The results are parsed using the following command
+```sh
+./target/debug/j job stat --csv --only_done --results_path "stream" --jid --cmd \
+    --id <matrix id> --mapper ../fbmm-workspace/scripts/extract-stream.py \
+    > figure4.csv
+```
+
+Then, to generate the figure, run
+```sh
+~/fbmm-artifact/fbmm-workspace/scripts/plot-stream-results.py figure4.csv
+```
