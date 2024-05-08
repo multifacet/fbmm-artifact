@@ -164,6 +164,7 @@ This is printed by `j` when the matrix is started, and can be found by running
 The "Kernel," "Alloc Size," and "Populate" columns in the CSV file uniquely identify the experiment configuration.
 The "Map Time," and "Unmap Time" columns are the measured time it took in CPU cycles to map/unmap all of the allocations.
 To get an average of the measurements relevant to these experiments, take the mean of the "Map Time" and "Unmap Time" within each experiment configuration.
+The script orders the columns in alphabetical order, so it might be easier to rearrange them in a spreadsheet software before continuing.
 
 CPU cycles can be converted to microseconds, like reported in the paper, with the following equation:
 
