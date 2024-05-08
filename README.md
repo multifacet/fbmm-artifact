@@ -121,7 +121,7 @@ All of the following commands will be run on the **_driver_** machine.
 To test if everything is up and running, run the following command to run an experiment where several kernel allocations are made using FBMM
 ```sh
 cd ./fbmm-artifact/jobserver/
-./target/debug/j job add fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl --fbmm --basicmmfs 16777216 alloctest 1 100000 --threads 1"
+./target/debug/j job add fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl --fbmm --basicmmfs 16777216 alloctest 1 100000 --threads 1" ~/fbmm_results
 ```
 
 After a few minutes, the job should complete successfully, which can be seen by checking its status with
