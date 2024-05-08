@@ -234,3 +234,21 @@ Then, to generate the figure, run
 ```sh
 ~/fbmm-artifact/fbmm-workspace/scripts/plot-stream-results.py figure4.csv
 ```
+
+## ContigMFS Evaluation
+
+The following commnad will run the experiments used to generate Table 6
+```sh
+./target/debug/j job matrix add -x 1 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --badger_trap --fbmm --contigmmfs {WKLD}" \
+    ~/fbmm_results \
+    WKLD="spec17 mcf","spec17 cactubssn","gups --move_hot 35 33"
+```
+
+The we only have one results per workload, so we don't have a fancy parsing script for these experiments like the others.
+To find the output files for these experiments, run
+```sh
+./target/debug/j job stat --text --only_done --results_path "badger_trap" --cmd --jid --id <matrix id>
+```
+
+If you open the output files, you will see some statistics captured by the badger trap utility.
+The measurements in Table 6 are calculated by dividing the "Range TLB hit detected" count by the "DTLB miss detected" count.
