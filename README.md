@@ -128,3 +128,46 @@ After a few minutes, the job should complete successfully, which can be seen by 
 ```sh
 ./target/debug/j job ls
 ```
+
+## FBMM Translation Layer Overhead
+This section will describe the experiments used to measure the performance of the FBMM Translation Layer, which is discussed in Section 4 and Table 3 of the paper.
+
+### Running the Experiments
+The following command will run the experiments used to generate Table 3.
+```sh
+./target/debug/j job matrix add -x 10 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --numactl {FBMM} alloctest {SIZE} 100000 --threads 1 {POPULATE}" ~/fbmm_results \
+    FBMM=,"--fbmm --basicmmfs 16777216" \
+    SIZE=1,2,8,32,128 \
+    POPULATE=,"--populate"
+```
+This command tells the jobserver to create a "matrix" of jobs, where it runs jobs with every combination of arguments provided at the end of the command.
+The `-x` flag at the beginning is the number of times each combination should be run.
+The `--max_failures` flag limits the number of times a job in the matrix can be retried before aborting.
+The `FBMM` argument is used to choose between running base linux or FBMM with the BasicMFS.
+The `SIZE` argument specifies the size in pages of each allocation the benchmark makes.
+The `POPULATE` argument specifies whether or not the allocations should be backed by physical memory.
+
+### Collecting the Results
+The following command will parse the output of the experiments and put them into a CSV file.
+
+```sh
+./target/debug/j job stat --csv --only_done --results_path "" --jid --cmd \
+    --id <matrix id> --mapper ../fbmm-workspace/scripts/extract-alloctest.py \
+    > table3.csv
+```
+where `matrix id` is the job id of the job matrix.
+This is printed by `j` when the matrix is started, and can be found by running
+```sh
+./target/debug j job ls
+```
+
+The "Kernel," "Alloc Size," and "Populate" columns in the CSV file uniquely identify the experiment configuration.
+The "Map Time," and "Unmap Time" columns are the measured time it took in CPU cycles to map/unmap all of the allocations.
+To get an average of the measurements relevant to these experiments, take the mean of the "Map Time" and "Unmap Time" within each experiment configuration.
+
+CPU cycles can be converted to microseconds, like reported in the paper, with the following equation:
+
+$$ microseconds = (\frac{x}{100000} / freq) * 1000000 $$
+
+where $x$ is the average map/unmap cycles, and $freq$ is the CPU frequency when the CPU scaling governor is set to "performance."
+On a c220g1 machine, that is $3200000000 Hz$.
