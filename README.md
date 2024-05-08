@@ -70,6 +70,7 @@ All of the following commands will be run on the **_driver_** machine.
     ```
 
 5. Start the jobserver
+
     In a different terminal, run
     ```sh
     mkdir -p ~/fbmm_logs
