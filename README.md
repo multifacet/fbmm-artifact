@@ -76,7 +76,7 @@ All of the following commands will be run on the **_driver_** machine.
     mkdir -p ~/fbmm_logs
     mkdir -p ~/fbmm_results
     cd ./fbmm-artifact/jobserver/
-    ./target/debug/expjobserver ../fbmm-workspace/runner/target/debug/runner ~/fbmm_logs example.log.yml
+    ./target/debug/expjobserver --allow_snap_fail ../fbmm-workspace/runner/target/debug/runner ~/fbmm_logs example.log.yml
     ```
     This will start an instance of the jobserver.
     `~/fbmm_logs` is the directory the jobserver will save the log output of the experiments we run.
