@@ -93,7 +93,7 @@ All of the following commands will be run on the **_driver_** machine.
     Where
     - `_test_ url` is the URL of the machine being setup
     - `_test_ ip` is the IP address of the machine being setup
-    - `ssh port` is the SSH port to use for that machine
+    - `ssh port` is the SSH port to use for that machine. Usually 22
     - `user` is the username to SSH into the _test_ machine with
     - `spec path` is the path to the SPEC2017 ISO
 
@@ -111,3 +111,19 @@ All of the following commands will be run on the **_driver_** machine.
     tail -f ~/fbmm_logs/<jid>-*
     ```
 
+    If there is a machine you no longer want to use for experiments, run
+    ```sh
+    ./target/debug/j machine rm -m <_test_ url>:<ssh port>
+    ```
+
+## Kick The Tires
+To test if everything is up and running, run the following command to run an experiment where several kernel allocations are made using FBMM
+```sh
+cd ./fbmm-artifact/jobserver/
+./target/debug/j job add fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl --fbmm --basicmmfs 16777216 alloctest 1 100000 --threads 1"
+```
+
+After a few minutes, the job should complete successfully, which can be seen by checking its status with
+```sh
+./target/debug/j job ls
+```
