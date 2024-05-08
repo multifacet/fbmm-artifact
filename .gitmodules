@@ -1,0 +1,7 @@
+[submodule "jobserver"]
+	path = jobserver
+	url = https://github.com/mark-i-m/jobserver.git
+[submodule "fbmm-workspace"]
+	path = fbmm-workspace
+	url = https://github.com/multifacet/fbmm-workspace.git
+	branch = atc-artifact

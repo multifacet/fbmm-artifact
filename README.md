@@ -1,5 +1,6 @@
 # Artifact for FBMM (ATC'24)
 TODO: Add link to artifact github repo
+TODO: Move the submodule repos to the multifacet github
 
 ## Overview
 This artifact contains:
@@ -42,5 +43,69 @@ _Test_ machine:
 ## Setup
 All of the following commands will be run on the **_driver_** machine.
 
+1. Clone this repo
+    ```sh
+    git clone https://github.com/multifacet/fbmm-artifact
+    ```
 
+2. Initialize the submodules
+    ```sh
+    cd fbmm-artifact
+    git submodule update --init --recursive
+
+3. Build the jobserver
+    ```sh
+    cd jobserver
+    cargo build
+    cd ../
+    ```
+
+4. Build the runner
+    ```sh
+    cd fbmm-workspace/runner/
+    cargo build
+    cd ../../
+    ```
+
+5. Start the jobserver
+    In a different terminal, run
+    ```sh
+    mkdir -p ~/fbmm_logs
+    mkdir -p ~/fbmm_results
+    cd ./fbmm-artifact/jobserver/
+    ./target/debug/expjobserver ../fbmm-workspace/runner/target/debug/runner ~/fbmm_logs example.log.yml
+    ```
+    This will start an instance of the jobserver.
+    `~/fbmm_logs` is the directory the jobserver will save the log output of the experiments we run.
+    `~/fbmm_results` is the directory the jobserver will save the experimental results to.
+
+6. Setup the _test_ machine(s)
+    ```sh
+    cd ./fbmm-artifact/jobserver/
+    ssh -p <ssh port> <_test_ url>
+    exit
+    ssh -p <ssh port> <_test_ ip>
+    exit
+    ./target/debug/j machine setup -m <_test_ url>:<ssh port> -c fbmm "setup_wkspc {MACHINE} <user> --clone_wkspc --host_bmks --host_dep --unstable_device_names --resize_root --spec_2017 <spec path>" "setup_kernel {MACHINE} {USER} --branch atc-artifact --repo github.com/multifacet/fbmm --install_perf --build_mmfs +CONFIG_TRANSPARENT_HUGEPAGE -CONFIG_PAGE_TABLE_ISOLATION -CONFIG_RETPOLINE +CONFIG_GDB_SCRIPTS +CONFIG_FRAME_POINTERS +CONFIG_IKHEADERS +CONFIG_SLAB_FREELIST_RANDOM +CONFIG_SHUFFLE_PAGE_ALLOCATOR +CONFIG_FS_DAX +CONFIG_DAX +CONFIG_BLK_DEV_RAM +CONFIG_FILE_BASED_MM +CONFIG_BLK_DEV_PMEM +CONFIG_ND_BLK +CONFIG_BTT +CONFIG_NVDIMM_PFN +CONFIG_NVDIMM_DAX +CONFIG_X86_PMEM_LEGACY -CONFIG_INIT_ON_ALLOC_DEFAULT_ON"
+    ```
+    Where
+    - `_test_ url` is the URL of the machine being setup
+    - `_test_ ip` is the IP address of the machine being setup
+    - `ssh port` is the SSH port to use for that machine
+    - `user` is the username to SSH into the _test_ machine with
+    - `spec path` is the path to the SPEC2017 ISO
+
+    We need to ssh into the machine before running the setup scripts so it is in the known_hosts file.
+
+    `./target/debug/j` is the client program that talks to the jobserver to add new jobs.
+    To see the list of jobs, run
+    ```sh
+    ./target/debug/j job ls
+    ```
+    Which will show the list of jobs, their current status (e.g., running, done), and their unique job id (jid).
+
+    To watch the progress of a running command, run
+    ```sh
+    tail -f ~/fbmm_logs/<jid>-*
+    ```
 
