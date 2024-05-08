@@ -51,7 +51,7 @@ All of the following commands will be run on the **_driver_** machine.
 2. Initialize the submodules
     ```sh
     cd fbmm-artifact
-    git submodule update --init -- fbmm-workspace
+    git submodule update --init --recursive -- fbmm-workspace
     git submodule update --init -- jobserver
     ```
 
