@@ -33,7 +33,7 @@ _Driver_ machine:
 - [Rust](https://www.rust-lang.org/tools/install) to compile the `jobserver` and `runner`
 - _Passwordless_ SSH access to the driver machines, and a stable network connection that allows for hours-long SSH sessions
 - A SPEC2017 benchmark ISO image. An image is not included in this artifact for licensing reasons.
-- `python3` with `matplotlib`, `numpy`, and `scipy`
+- `python3` with `matplotlib`, `numpy`, `scipy`, `pandas`, and `seaborn`
 
 _Test_ machine:
 - At least two NUMA nodes
@@ -171,3 +171,46 @@ $$ microseconds = (\frac{x}{100000} / freq) * 1000000 $$
 
 where $x$ is the average map/unmap cycles, and $freq$ is the CPU frequency when the CPU scaling governor is set to "performance."
 On a c220g1 machine, that is $3200000000 Hz$.
+
+## TieredMFS Evaluation
+This section describes how to run the experiments used to generate Figure 3 and Table 5 of the paper.
+
+### TieredMFS GUPS Experiment
+The following command will run the experiments used to generate Table 5
+```sh
+./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp {EXP} gups --move_hot 35 33" \
+    ~/fbmm_results \
+    EXP="--numactl","--dram_size 68 --dram_start 12","--fbmm --tieredmmfs --dram_size 8 --dram_start 4 --pmem_size 45 --pmem_start 68"
+```
+
+After all of those experiments finish, this command will parse and collect the results into a CSV file
+```sh
+./target/debug/j job stat --csv --only_done --results_path "gups" --jid --cmd --class \
+    --id <matrix id> --mapper ../fbmm-workspace/scripts/extract-gups.py \
+    > table5.csv
+```
+
+The "Type" column of the CSV will uniquely identify the experiment configuration.
+The "GUPS" column is the measured GUPS performance of that run.
+After averaging the "GUPS" column for each "Type," the result reported in Table 5 are the Linux Split and FBMM types divided by the GUPS value of the Linux Local type.
+
+### TieredMFS Memcached
+The following command will run the experiments used to generate Figure 3
+```sh
+./target/debug/j job matrix add -x 50 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp {EXP} memcached --op_count 10000000 --read_prop 1.0 --update_prop 0.0 40 " \
+    ~/fbmm_results \
+    EXP="--numactl","--dram_size 64 --dram_start 14","--fbmm --tieredmmfs --dram_size 10 --dram_start 4 --pmem_size 45 --pmem_start 68"
+```
+Memcached experiments run for a while, so for the sake of time, I would recommended adding multiple machines to the jobserver using the step 6 of the Setup section, and running fewer than 50 runs per experiment configuration (maybe 10-25 depending on how many machines are used).
+
+The results are parsed using the following command
+```sh
+./target/debug/j job stat --csv --only_done --results_path "ycsb" --jid --cmd --class \
+    --id <matrix id> --mapper ../fbmm-workspace/scripts/extract-ycsb.py \
+    > figure3.csv
+```
+
+Then, to generate the figure, run
+```sh
+~/fbmm-artifact/fbmm-workspace/scripts/plot-ycsb-box.py figure3.csv
+```
