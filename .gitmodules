@@ -5,3 +5,7 @@
 	path = fbmm-workspace
 	url = https://github.com/multifacet/fbmm-workspace.git
 	branch = atc-artifact
+[submodule "fbmm"]
+	path = fbmm
+	url = https://github.com/multifacet/fbmm.git
+	branch = atc-artifact
