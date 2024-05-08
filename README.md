@@ -85,15 +85,15 @@ All of the following commands will be run on the **_driver_** machine.
 6. Setup the _test_ machine(s)
     ```sh
     cd ./fbmm-artifact/jobserver/
-    ssh -p <ssh port> <user>@<_test_ url>
+    ssh -p <ssh port> <user>@<test url>
     exit
-    ssh -p <ssh port> <user>@<_test_ ip>
+    ssh -p <ssh port> <user>@<test ip>
     exit
-    ./target/debug/j machine setup -m <_test_ url>:<ssh port> -c fbmm "setup_wkspc {MACHINE} <user> --clone_wkspc --wkspc_branch atc-artifact --host_bmks --host_dep --unstable_device_names --resize_root --spec_2017 <spec path>" "setup_kernel {MACHINE} <user> --branch atc-artifact --repo github.com/multifacet/fbmm --install_perf --build_mmfs +CONFIG_TRANSPARENT_HUGEPAGE -CONFIG_PAGE_TABLE_ISOLATION -CONFIG_RETPOLINE +CONFIG_GDB_SCRIPTS +CONFIG_FRAME_POINTERS +CONFIG_IKHEADERS +CONFIG_SLAB_FREELIST_RANDOM +CONFIG_SHUFFLE_PAGE_ALLOCATOR +CONFIG_FS_DAX +CONFIG_DAX +CONFIG_BLK_DEV_RAM +CONFIG_FILE_BASED_MM +CONFIG_BLK_DEV_PMEM +CONFIG_ND_BLK +CONFIG_BTT +CONFIG_NVDIMM_PFN +CONFIG_NVDIMM_DAX +CONFIG_X86_PMEM_LEGACY -CONFIG_INIT_ON_ALLOC_DEFAULT_ON"
+    ./target/debug/j machine setup -m <test url>:<ssh port> -c fbmm "setup_wkspc {MACHINE} <user> --clone_wkspc --wkspc_branch atc-artifact --host_bmks --host_dep --unstable_device_names --resize_root --spec_2017 <spec path>" "setup_kernel {MACHINE} <user> --branch atc-artifact --repo github.com/multifacet/fbmm --install_perf --build_mmfs +CONFIG_TRANSPARENT_HUGEPAGE -CONFIG_PAGE_TABLE_ISOLATION -CONFIG_RETPOLINE +CONFIG_GDB_SCRIPTS +CONFIG_FRAME_POINTERS +CONFIG_IKHEADERS +CONFIG_SLAB_FREELIST_RANDOM +CONFIG_SHUFFLE_PAGE_ALLOCATOR +CONFIG_FS_DAX +CONFIG_DAX +CONFIG_BLK_DEV_RAM +CONFIG_FILE_BASED_MM +CONFIG_BLK_DEV_PMEM +CONFIG_ND_BLK +CONFIG_BTT +CONFIG_NVDIMM_PFN +CONFIG_NVDIMM_DAX +CONFIG_X86_PMEM_LEGACY -CONFIG_INIT_ON_ALLOC_DEFAULT_ON"
     ```
     Where
-    - `_test_ url` is the URL of the machine being setup
-    - `_test_ ip` is the IP address of the machine being setup
+    - `test url` is the URL of the _test_ machine being setup
+    - `test ip` is the IP address of the _test_ machine being setup
     - `ssh port` is the SSH port to use for that machine. Usually 22
     - `user` is the username to SSH into the _test_ machine with
     - `spec path` is the path to the SPEC2017 ISO
