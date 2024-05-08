@@ -135,7 +135,7 @@ This section will describe the experiments used to measure the performance of th
 ### Running the Experiments
 The following command will run the experiments used to generate Table 3.
 ```sh
-./target/debug/j job matrix add -x 10 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --numactl {FBMM} alloctest {SIZE} 100000 --threads 1 {POPULATE}" ~/fbmm_results \
+./target/debug/j job matrix add -x 10 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl {FBMM} alloctest {SIZE} 100000 --threads 1 {POPULATE}" ~/fbmm_results \
     FBMM=,"--fbmm --basicmmfs 16777216" \
     SIZE=1,2,8,32,128 \
     POPULATE=,"--populate"
@@ -179,7 +179,7 @@ This section describes how to run the experiments used to generate Figure 3 and 
 ### TieredMFS GUPS Experiment
 The following command will run the experiments used to generate Table 5
 ```sh
-./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp {EXP} gups --move_hot 35 33" \
+./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp {EXP} gups --move_hot 35 33" \
     ~/fbmm_results \
     EXP="--numactl","--dram_size 68 --dram_start 12","--fbmm --tieredmmfs --dram_size 8 --dram_start 4 --pmem_size 45 --pmem_start 68"
 ```
@@ -198,7 +198,7 @@ After averaging the "GUPS" column for each "Type," the result reported in Table 
 ### TieredMFS Memcached
 The following command will run the experiments used to generate Figure 3
 ```sh
-./target/debug/j job matrix add -x 50 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp {EXP} memcached --op_count 10000000 --read_prop 1.0 --update_prop 0.0 40 " \
+./target/debug/j job matrix add -x 50 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp {EXP} memcached --op_count 10000000 --read_prop 1.0 --update_prop 0.0 40 " \
     ~/fbmm_results \
     EXP="--numactl","--dram_size 64 --dram_start 14","--fbmm --tieredmmfs --dram_size 10 --dram_start 4 --pmem_size 45 --pmem_start 68"
 ```
@@ -219,7 +219,7 @@ Then, to generate the figure, run
 ## BWMFS Evaluation
 The following command will run the experiments used to generate Figure 4
 ```sh
-./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --numactl {EXP} stream --threads 8" \
+./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl {EXP} stream --threads 8" \
     ~/fbmm_results \
     EXP=,"--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:2 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:5 --node_weight 1:2",--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:2","--numactl --fbmm --bwmmfs --node_weight 0:1 --node_weight 1:3","--numactl --fbmm --bwmmfs --node_weight 0:2 --node_weight 1:3"
 ```
@@ -240,7 +240,7 @@ Then, to generate the figure, run
 
 The following commnad will run the experiments used to generate Table 6
 ```sh
-./target/debug/j job matrix add -x 1 --max_failures 1 fbmm "fbmm_exp {MACHINE} bijan --disable_thp --badger_trap --fbmm --contigmmfs {WKLD}" \
+./target/debug/j job matrix add -x 1 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp --badger_trap --fbmm --contigmmfs {WKLD}" \
     ~/fbmm_results \
     WKLD="spec17 mcf","spec17 cactubssn","gups --move_hot 35 33"
 ```
