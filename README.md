@@ -215,6 +215,13 @@ Then, to generate the figure, run
 ~/fbmm-artifact/fbmm-workspace/scripts/plot-ycsb-box.py figure3.csv
 ```
 
+**Note:** due to an unfixed bug, the FBMM experiment may cause the kernel to panic.
+If a job is running for more than one hour, reboot the affected machine and then run
+```sh
+./target/debug/j job restart <jid>
+```
+to restart the job.
+
 ## BWMFS Evaluation
 The following command will run the experiments used to generate Figure 4
 ```sh
@@ -252,3 +259,6 @@ To find the output files for these experiments, run
 
 If you open the output files, you will see some statistics captured by the badger trap utility.
 The measurements in Table 6 are calculated by dividing the "Range TLB hit detected" count by the "DTLB miss detected" count.
+
+**Note:** These experiments will probably take a few hours because every TLB miss will trap into the kernel.
+`mcf` takes about 2 hours, and `CactuBSSN` takes about 7.
