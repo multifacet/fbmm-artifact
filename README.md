@@ -106,6 +106,12 @@ All of the following commands will be run on the **_driver_** machine.
     We need to ssh into the machine before running the setup scripts so it is in the known_hosts file.
 
     `./target/debug/j` is the client program that talks to the jobserver to add new jobs.
+    This command tells the jobserver to setup a machine for use at the host name and port specified, and assign it to the class "fbmm."
+    All of our experiments will be run using that class.
+    The parts in quotes are the commands the jobserver gives to the `runner` program to setup the machines for experiments.
+    `setup_wkspc` installs dependencies and builds the benchmarks used in our experiments.
+    `setup_kernel` compiles and builds the FBMM kernel.
+
     To see the list of jobs, run
     ```sh
     ./target/debug/j job ls
@@ -121,6 +127,8 @@ All of the following commands will be run on the **_driver_** machine.
     ```sh
     ./target/debug/j machine rm -m <test host name>:<ssh port>
     ```
+
+    If you have any questions about the `jobserver` or `runner`, please do not be afraid to reach out.
 
 ## Kick The Tires
 To test if everything is up and running, run the following command to run an experiment where several kernel allocations are made using FBMM
