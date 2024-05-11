@@ -54,22 +54,27 @@ All of the following commands will be run on the **_driver_** machine.
     git submodule update --init --recursive -- fbmm-workspace
     git submodule update --init -- jobserver
     ```
+3. Install build dependencies
+    ```sh
+    sudo apt update
+    sudo apt install -y cmake libssl-dev
+    ```
 
-3. Build the jobserver
+4. Build the jobserver
     ```sh
     cd jobserver
     cargo build
     cd ../
     ```
 
-4. Build the runner
+5. Build the runner
     ```sh
     cd fbmm-workspace/runner/
     cargo build
     cd ../../
     ```
 
-5. Start the jobserver
+6. Start the jobserver
 
     In a different terminal, run
     ```sh
@@ -82,7 +87,7 @@ All of the following commands will be run on the **_driver_** machine.
     `~/fbmm_logs` is the directory the jobserver will save the log output of the experiments we run.
     `~/fbmm_results` is the directory the jobserver will save the experimental results to.
 
-6. Setup the _test_ machine(s)
+7. Setup the _test_ machine(s)
     ```sh
     cd ./fbmm-artifact/jobserver/
     ssh -p <ssh port> <user>@<test host name>
