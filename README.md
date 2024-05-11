@@ -1,6 +1,5 @@
 # Artifact for FBMM (ATC'24)
-TODO: Add link to artifact github repo
-TODO: Move the submodule repos to the multifacet github
+[This README is best viewed on Github](https://github.com/multifacet/fbmm-artifact/blob/main/README.md)
 
 ## Overview
 This artifact contains:
