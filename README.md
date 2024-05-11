@@ -38,6 +38,7 @@ _Test_ machine:
 - At least two NUMA nodes
 - Ubuntu 20.04
 - We recommend the Cloudlab c220g1 machines to most closely recreate the results from the paper.
+- Passwordless sudo access
 
 ## Setup
 All of the following commands will be run on the **_driver_** machine.
@@ -84,14 +85,14 @@ All of the following commands will be run on the **_driver_** machine.
 6. Setup the _test_ machine(s)
     ```sh
     cd ./fbmm-artifact/jobserver/
-    ssh -p <ssh port> <user>@<test url>
+    ssh -p <ssh port> <user>@<test host name>
     exit
     ssh -p <ssh port> <user>@<test ip>
     exit
-    ./target/debug/j machine setup -m <test url>:<ssh port> -c fbmm "setup_wkspc {MACHINE} <user> --clone_wkspc --wkspc_branch atc-artifact --host_bmks --host_dep --unstable_device_names --resize_root --spec_2017 <spec path>" "setup_kernel {MACHINE} <user> --branch atc-artifact --repo github.com/multifacet/fbmm --install_perf --build_mmfs +CONFIG_TRANSPARENT_HUGEPAGE -CONFIG_PAGE_TABLE_ISOLATION -CONFIG_RETPOLINE +CONFIG_GDB_SCRIPTS +CONFIG_FRAME_POINTERS +CONFIG_IKHEADERS +CONFIG_SLAB_FREELIST_RANDOM +CONFIG_SHUFFLE_PAGE_ALLOCATOR +CONFIG_FS_DAX +CONFIG_DAX +CONFIG_BLK_DEV_RAM +CONFIG_FILE_BASED_MM +CONFIG_BLK_DEV_PMEM +CONFIG_ND_BLK +CONFIG_BTT +CONFIG_NVDIMM_PFN +CONFIG_NVDIMM_DAX +CONFIG_X86_PMEM_LEGACY -CONFIG_INIT_ON_ALLOC_DEFAULT_ON"
+    ./target/debug/j machine setup -m <test host name>:<ssh port> -c fbmm "setup_wkspc {MACHINE} <user> --clone_wkspc --wkspc_branch atc-artifact --host_bmks --host_dep --unstable_device_names --resize_root --spec_2017 <spec path>" "setup_kernel {MACHINE} <user> --branch atc-artifact --repo github.com/multifacet/fbmm --install_perf --build_mmfs +CONFIG_TRANSPARENT_HUGEPAGE -CONFIG_PAGE_TABLE_ISOLATION -CONFIG_RETPOLINE +CONFIG_GDB_SCRIPTS +CONFIG_FRAME_POINTERS +CONFIG_IKHEADERS +CONFIG_SLAB_FREELIST_RANDOM +CONFIG_SHUFFLE_PAGE_ALLOCATOR +CONFIG_FS_DAX +CONFIG_DAX +CONFIG_BLK_DEV_RAM +CONFIG_FILE_BASED_MM +CONFIG_BLK_DEV_PMEM +CONFIG_ND_BLK +CONFIG_BTT +CONFIG_NVDIMM_PFN +CONFIG_NVDIMM_DAX +CONFIG_X86_PMEM_LEGACY -CONFIG_INIT_ON_ALLOC_DEFAULT_ON"
     ```
     Where
-    - `test url` is the URL of the _test_ machine being setup
+    - `test host name` is the host name of the _test_ machine being setup
     - `test ip` is the IP address of the _test_ machine being setup
     - `ssh port` is the SSH port to use for that machine. Usually 22
     - `user` is the username to SSH into the _test_ machine with
@@ -113,7 +114,7 @@ All of the following commands will be run on the **_driver_** machine.
 
     If there is a machine you no longer want to use for experiments, run
     ```sh
-    ./target/debug/j machine rm -m <_test_ url>:<ssh port>
+    ./target/debug/j machine rm -m <test host name>:<ssh port>
     ```
 
 ## Kick The Tires
