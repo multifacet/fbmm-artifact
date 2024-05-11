@@ -74,7 +74,7 @@ All of the following commands will be run on the **_driver_** machine.
     ```sh
     mkdir -p ~/fbmm_logs
     mkdir -p ~/fbmm_results
-    cd ./fbmm-artifact/jobserver/
+    cd ./jobserver/
     ./target/debug/expjobserver --allow_snap_fail ../fbmm-workspace/runner/target/debug/runner ~/fbmm_logs example.log.yml
     ```
     This will start an instance of the jobserver.
