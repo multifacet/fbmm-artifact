@@ -221,7 +221,7 @@ The following command will run the experiments used to generate Figure 4
 ```sh
 ./target/debug/j job matrix add -x 5 --max_failures 1 fbmm "fbmm_exp {MACHINE} <user> --disable_thp --numactl {EXP} stream --threads 8" \
     ~/fbmm_results \
-    EXP=,"--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:2 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:5 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:2","--numactl --fbmm --bwmmfs --node_weight 0:1 --node_weight 1:3","--numactl --fbmm --bwmmfs --node_weight 0:2 --node_weight 1:3"
+    EXP=,"--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:2 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:1","--fbmm --bwmmfs --node_weight 0:3 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:5 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:2","--fbmm --bwmmfs --node_weight 0:1 --node_weight 1:3","--fbmm --bwmmfs --node_weight 0:2 --node_weight 1:3"
 ```
 
 The results are parsed using the following command
